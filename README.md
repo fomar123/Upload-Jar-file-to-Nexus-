@@ -1,32 +1,81 @@
-##### build the project
+# How to publish Using Gradle build tool: 
+# You need to configure each build tool with Nexus credentials and address
+# Add the following code snippet in the build.gradle file in your project.
+# This file is also called the Gradle build script. The build configuration, tasks, and plugins are described in this file.
+# Now we have to give user the Gradle or Maven credential to connnect with Nexus
+# Add a plugin in the build.gradle and it will allow gradle to connect with nexus and push in repository
 
-    ./gradlew build
+  apply plugin : 'maven-publish'
 
-##### build Docker image called java-app. Execute from root
+##### Now , add a publishing block
+publishing {
+publication { 
 
-    docker build -t java-app .
-    
-##### push image to repo 
+    }
+repositories {
 
-    docker tag java-app demo-app:java-1.0
-    
+    }
+}
 
-### Changes
-[23.Aug.2021]
+# Publication block gives the info about jar file configuration
+# Repositories block gives the info about the nexus repositories that we are going to upload our jar file
 
-Gradle wrapper version upgraded from version 6.x to 7.0 
-        
-###### This will change the version in wrapper.settings
+apply plugin: 'maven-publish'
 
-     ./gradlew wrapper --gradle-version 7.0
+publishing{
+    publications{
+        maven(MavenPublication){
+            artifact("build/libs/my-app-$version"+".jar"){
+                extension 'jar'
+            }
+        }
+    }
+    repositories {
+        maven {
+            name 'nexus'
+            url "http://[your nexus ip]:[your nexus port]/repository/maven-snapshorts/"
+            credentials {
+                username xxx
+                password xxx
+            }
+        }
+    }
+}
 
-###### This will update the complete wrapper and download version 7.0 jar
+##### Add credentials in gradle.properties file
+repoUser = "your username"
+repoPassword = "your password"
 
-     ./gradlew wrapper --gradle-version 7.0
+##### Now, reference those credential in the build.gradle file
 
-In build.gradle file, replace:
-- compile with implementation 
-- testCompile with testImplementation
+apply plugin: 'maven-publish'
 
-Because, version 7.0 removed compile and testCompile configurations.
-Source: https://docs.gradle.org/current/userguide/upgrading_version_6.html#sec:configuration_removal
+publishing{
+    publications{
+        maven(MavenPublication){
+            artifact("build/libs/my-app-$version"+".jar"){
+                extension 'jar'
+            }
+        }
+    }
+    repositories {
+        maven {
+            name 'nexus'
+            url "http://[your nexus ip]:[your nexus port]/repository/maven-snapshorts/"
+            credentials {
+                username project.repoUser
+                password project.repoPasswd
+            }
+        }
+    }
+}
+
+# Build the jar file
+# Open your project folder in the terminal and build the jar file
+
+   ./gradlew build
+   
+# Upload the Jar file to the repository
+
+   ./gradlew publish
+
