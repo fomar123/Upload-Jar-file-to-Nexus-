@@ -13,7 +13,7 @@ repositories {
 }
 
 # Publication block gives the info about jar file configuration
-# Repositories block gives the info about the nexus repositories that we are going to upload our jar file
+##### Repositories block gives the info about the nexus repositories that we are going to upload our jar file
 
 apply plugin: 'maven-publish'
 
