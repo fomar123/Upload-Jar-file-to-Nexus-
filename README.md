@@ -1,11 +1,6 @@
 # How to publish Using Gradle build tool: 
-# You need to configure each build tool with Nexus credentials and address
-# Add the following code snippet in the build.gradle file in your project.
-# This file is also called the Gradle build script. The build configuration, tasks, and plugins are described in this file.
-# Now we have to give user the Gradle or Maven credential to connnect with Nexus
-# Add a plugin in the build.gradle and it will allow gradle to connect with nexus and push in repository
 
-  apply plugin : 'maven-publish'
+apply plugin : 'maven-publish'
 
 ##### Now , add a publishing block
 publishing {
