@@ -66,7 +66,7 @@ publishing{
 }
 
 # Build the jar file
-# Open your project folder in the terminal and build the jar file
+##### Open your project folder in the terminal and build the jar file
 
    ./gradlew build
    
